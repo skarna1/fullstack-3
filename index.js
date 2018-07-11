@@ -1,5 +1,8 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
+app.use(bodyParser.json())
+
 
 let persons = [
   {
@@ -41,6 +44,26 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.post('/api/persons', (request, response) => {
+
+  if (request.body.name === undefined) {
+    return response.status(400).json({ error: 'name missing' })
+  }
+  if (request.body.number === undefined) {
+    return response.status(400).json({ error: 'number missing' })
+  }
+  if (persons.findIndex(person => person.name === request.body.name) != -1) {
+    return response.status(400).json({ error: 'name already exists' })
+  }
+  const person = {
+    name: request.body.name,
+    number: request.body.number
+  }
+  person.id = Math.floor(Math.random() * 1000000)
+  persons = persons.concat(person)
+  response.json(person)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
