@@ -9,7 +9,7 @@ morgan.token('jsoncontent', function getJsonContent (req) {
 app.use(morgan(':method :url :jsoncontent :status :res[content-length] - :response-time ms'))
 const cors = require('cors')
 app.use(cors())
-
+app.use(express.static('build'))
 
 let persons = [
   {
