@@ -115,9 +115,11 @@ app.delete('/api/persons/:id', (request, response) => {
     .findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
+      console.log(result)
     })
     .catch(error => {
       response.status(400).send({ error: 'malformatted id' })
+      console.log(error)
     })
 })
 
